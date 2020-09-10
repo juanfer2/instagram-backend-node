@@ -1,0 +1,30 @@
+version: '3'
+services:
+  node_backend:
+    container_name: "node_backend"
+    build: ./
+    ports:
+      - "3000:3000"
+
+  prisma:
+    image: prismagraphql/prisma:1.34
+    restart: always
+    ports:
+      - '4466:4466'
+    environment:
+      PRISMA_CONFIG: |
+        port: 4466
+        databases:
+          default:
+            connector: postgres
+            host: localhost
+            port: 5432
+            user: postgres
+            password: asdqwe123
+  pg:
+    image: "postgres:12"
+    container_name: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pg/db_data:/var/lib/postgresql/data
